@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-exports.run = async (client, message, args, config) => {
+exports.run = async (client, message, args, config, dotenv) => {
   const embed = new Discord.RichEmbed()
     .setAuthor('COMANDOS', client.user.avatarURL)
     .addField('csgo>geral', 'Mostra o status de outros servidores', true)

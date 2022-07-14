@@ -1,8 +1,8 @@
 const Discord = require('discord.js')
 const axios = require('axios')
-exports.run = async (client, message, args, config) => {
+exports.run = async (client, message, args, config, dotenv) => {
 
-  var req = await axios.get(`https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${config.key}`)
+  var req = await axios.get(`https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${process.env.KEY}`)
 
 
   const embed = new Discord.RichEmbed()

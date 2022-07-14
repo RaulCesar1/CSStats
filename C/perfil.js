@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const axios = require('axios')
-exports.run = async (client, message, args, config) => {
+exports.run = async (client, message, args, config, dotenv) => {
   if (!args[0]) {
     return message.reply('utilize `csgo>perfil <custom / id> <URL customizada/ID da Steam do usuário>`')
   }
@@ -22,13 +22,13 @@ exports.run = async (client, message, args, config) => {
   if (args[0].toLowerCase() === 'id') {
 
     var req1 = await axios.get(
-      `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v1/?steamids=${args[1]}&key=${config.key}`
+      `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v1/?steamids=${args[1]}&key=${process.env.KEY}`
     )
     var req2 = await axios.get(
-      `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?steamid=${args[1]}&key=${config.key}`
+      `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?steamid=${args[1]}&key=${process.env.KEY}`
     )
     var req3 = await axios.get(
-      `https://api.steampowered.com/ISteamUser/GetPlayerBans/v1?steamids=${args[1]}&key=${config.key}`
+      `https://api.steampowered.com/ISteamUser/GetPlayerBans/v1?steamids=${args[1]}&key=${process.env.KEY}`
     )
 
     if (req1.data.response.players.player[0].personaname === "undefined") {
@@ -55,17 +55,17 @@ exports.run = async (client, message, args, config) => {
     }
   } else if (args[0].toLowerCase() === 'custom') {
     var req1 = await axios.get(
-      `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?vanityurl=${args[1]}&key=${config.key}`
+      `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?vanityurl=${args[1]}&key=${process.env.KEY}`
     )
     var steamidfetch = req1.data.response.steamid
     let req2 = await axios.get(
-      `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v1/?steamids=${steamidfetch}&key=${config.key}`
+      `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v1/?steamids=${steamidfetch}&key=${process.env.KEY}`
     )
     let req3 = await axios.get(
-      `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?steamid=${steamidfetch}&key=${config.key}`
+      `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?steamid=${steamidfetch}&key=${process.env.KEY}`
     )
     let req4 = await axios.get(
-      `https://api.steampowered.com/ISteamUser/GetPlayerBans/v1?steamids=${steamidfetch}&key=${config.key}`
+      `https://api.steampowered.com/ISteamUser/GetPlayerBans/v1?steamids=${steamidfetch}&key=${process.env.KEY}`
     )
 
     const EpochTime = req2.data.response.players.player[0].timecreated * 1000

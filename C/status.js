@@ -1,8 +1,8 @@
 const Discord = require('discord.js')
 const axios = require('axios')
-exports.run = async (client, message, args, config) => {
+exports.run = async (client, message, args, config, dotenv) => {
   try {
-    var req = await axios.get(`https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${config.key}`)
+    var req = await axios.get(`https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${process.env.KEY}`)
     var dc = req.data.result.datacenters
 
     function te(lugar) { //tradução do ESTADO

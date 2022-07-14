@@ -3,16 +3,17 @@ const {
 } = require('express');
 const Discord = require('discord.js')
 const client = new Discord.Client
-const config = require('./config.json')
+require('dotenv').config()
 const axios = require('axios')
 
 
 client.on('message', async message => {
+
   if (message.author.bot) return;
   if (message.channel.type === "dm") return;
-  if (!message.content.startsWith(config.prefix)) return;
+  if (!message.content.startsWith(process.env.PREFIX)) return;
 
-  var args = message.content.slice(config.prefix.length)
+  var args = message.content.slice(process.env.PREFIX.length)
     .trim()
     .split(/ +/g);
   var handler = args.shift()
@@ -21,7 +22,7 @@ client.on('message', async message => {
 
   try {
     var cmdlet = require(`./C/${handler}.js`)
-    cmdlet.run(client, message, args, config);
+    cmdlet.run(client, message, args, dotenv);
   } catch (e) {
     message.reply('comando inexistente!')
     console.log(e);
@@ -64,7 +65,7 @@ client.on('message', async message => {
   if (message.content.toLowerCase()
     .startsWith('csgo caiu') || message.content.toLowerCase()
     .startsWith('cs caiu')) {
-    var req = await axios.get(`https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${config.key}`)
+    var req = await axios.get(`https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${process.env.KEY}`)
     await message.react("⁉️")
     let filter = (reaction, user) => reaction.emoji.name === "⁉️" && user.id === message.author.id;
     let collector = message.createReactionCollector(filter, {
@@ -115,4 +116,4 @@ client.on('message', async message => {
 
 
 
-client.login(config.token)
+client.login(process.env.TOKEN)

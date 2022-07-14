@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const package = require("../package.json");
-exports.run = async (client, message, args, config) => {
+exports.run = async (client, message, args, config, dotenv) => {
   let user = client.users.find(u => u.tag === 'lunx#6699')
   const embed1 = new Discord.RichEmbed()
     .setAuthor('Sobre mim', client.user.avatarURL)

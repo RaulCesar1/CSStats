@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-exports.run = async (client, message, args) => {
+exports.run = async (client, message, args, config, dotenv) => {
   function criar_embed(F1, F2) {
     let embed = new Discord.RichEmbed()
       .setAuthor("CHANGELOG", client.user.avatarURL)

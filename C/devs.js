@@ -1,8 +1,8 @@
 const Discord = require('discord.js')
 const axios = require('axios')
-exports.run = async (client, message, args, config) => {
+exports.run = async (client, message, args, config, dotenv) => {
   let user = client.users.find(u => u.tag === 'lunx#6699')
-  var req = await axios.get(`http://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v0001/?appid=710&key=${config.key}`)
+  var req = await axios.get(`http://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v0001/?appid=710&key=${process.env.KEY}`)
   var status
   switch (user.presence.status) {
     case 'online':
