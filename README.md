@@ -1,0 +1,2 @@
+# ABOUT
+CSGO Server Checker
