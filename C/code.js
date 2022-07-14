@@ -5,7 +5,7 @@ exports.run = async (client, message, args, config) => {
       .setAuthor("CÓDIGO-FONTE", client.user.avatarURL)
       .addField(`Você quer saber como eu funciono? \nDê uma olhada no meu código fonte então.`, `Github:`)
       .setColor("WHITE")
-      .setDescription("https://github.com/Lunixyz/CSGOStats")
+      .setDescription("https://github.com/Lunixyz/CSStats")
 
   message.reply(embed)
 }
