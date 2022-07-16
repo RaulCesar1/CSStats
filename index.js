@@ -1,39 +1,39 @@
-const { Discord, Client } = require("discord.js");
+const { Discord, Client } = require('discord.js');
 const client = new Client();
 
-require("dotenv").config();
+require('dotenv').config();
 
-const axios = require("axios");
+const axios = require('axios');
 
 const prefix = process.env.PREFIX;
 
-client.on("message", async (message) => {
+client.on('message', async (message) => {
   if (message.author.bot) return;
-  if (message.channel.type === "dm") return;
+  if (message.channel.type === 'dm') return;
 
   //MENÇÃO
 
-  if (message.content.startsWith("<@989349457726418964>")) {
+  if (message.content.startsWith('<@989349457726418964>')) {
     message.reply(`opa! Quer saber meus comandos? Utilize \`${prefix}ajuda\``);
   }
 
   //CSGO CAIU
 
   if (
-    message.content.toLowerCase().startsWith("csgo caiu") ||
-    message.content.toLowerCase().startsWith("cs caiu")
+    message.content.toLowerCase().startsWith('csgo caiu') ||
+    message.content.toLowerCase().startsWith('cs caiu')
   ) {
     var req = await axios.get(
       `https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${process.env.KEY}`
     );
-    await message.react("⁉️");
+    await message.react('⁉️');
     let filter = (reaction, user) =>
-      reaction.emoji.name === "⁉️" && user.id === message.author.id;
+      reaction.emoji.name === '⁉️' && user.id === message.author.id;
     let collector = message.createReactionCollector(filter, {
       time: 300000,
     });
     collector.on(
-      "collect",
+      'collect',
       (em) => {
         em.remove(message.author.id);
         em.remove(client.user.id);
@@ -45,17 +45,17 @@ client.on("message", async (message) => {
           var traduz;
 
           switch (estados) {
-            case "low":
-              traduz = "`pouco tráfego`";
+            case 'low':
+              traduz = '`pouco tráfego`';
               break;
-            case "medium":
-              traduz = "`tráfego médio`";
+            case 'medium':
+              traduz = '`tráfego médio`';
               break;
-            case "full":
-              traduz = "`muito tráfego`";
+            case 'full':
+              traduz = '`muito tráfego`';
               break;
-            case "idle":
-              traduz = "`inativo`";
+            case 'idle':
+              traduz = '`inativo`';
               break;
             default:
               traduz = estados;
@@ -64,11 +64,11 @@ client.on("message", async (message) => {
           return traduz;
         }
 
-        if (dc.Brazil.load == "idle") {
-          message.reply("Os servidores do Brasil estão inativos!");
+        if (dc.Brazil.load == 'idle') {
+          message.reply('Os servidores do Brasil estão inativos!');
         } else {
           message
-            .reply("não! Os servidores do Brasil estão com " + te("Brazil"))
+            .reply('não! Os servidores do Brasil estão com ' + te('Brazil'))
             .then((msg) => {
               setTimeout(() => msg.delete(), 10000);
             });
@@ -76,7 +76,7 @@ client.on("message", async (message) => {
       },
       (error) => {
         message.reply(
-          "não consigo acessar a WebAPI no momento, desculpe! (isso significa que a API caiu!)"
+          'não consigo acessar a WebAPI no momento, desculpe! (isso significa que a API caiu!)'
         );
       }
     );
@@ -91,26 +91,26 @@ client.on("message", async (message) => {
 
   try {
     var cmdlet = require(`./C/${handler}.js`);
-    cmdlet.run(client, message, args, prefix, dotenv);
+    cmdlet.run(client, message, args, prefix);
   } catch (e) {
-    message.reply("comando inexistente!");
+    message.reply('comando inexistente!');
     console.log(e);
   }
 });
 
-client.on("ready", () => {
+client.on('ready', () => {
   let status = [
     {
       name: `Criado por Lunx`,
-      type: "STREAMING",
+      type: 'STREAMING',
     },
     {
       name: `Apenas um bot para checar o status dos servidores do CSGO`,
-      type: "PLAYING",
+      type: 'PLAYING',
     },
     {
       name: `Utilize ${prefix}ajuda para ver meus comandos`,
-      type: "PLAYING",
+      type: 'PLAYING',
     },
   ];
 

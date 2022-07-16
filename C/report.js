@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
-exports.run = async (client, message, args, prefix, dotenv) => {
+require("dotenv").config();
+exports.run = async (client, message, args, prefix) => {
 
   if (!args[0]) {
     return message.reply('utilize `csgo>reportar <bug/sugestão>`')

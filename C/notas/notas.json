@@ -17,6 +17,48 @@
           "version": "1.0.4",
           "desc": "[GERAL]\n- Adicionado um alerta para quando bot está sofrendo de lentidão.",
           "data": "01.07.22"
-        }
+        },
+        {
+          "id": "4",
+          "version": "1.0.5",
+          "desc": "[LINGUAGEM]\n- Edições em algumas mensagens para melhor compreensão do usuário\n[GERAL]\n- Adicionado maior sintaxe para comandos\n[OUTROS]\n- Para maior segurança, foi adicionado um sistema de logs para quando cada usuário executou uma mensagem e junto aparece o link da mensagem.",
+          "data": "05.07.22"
+        },
+        {
+          "id": "5",
+          "version": "1.0.6",
+          "desc": "[GERAL]\n- Adicionado o comando !csgo devs",
+          "data": "07.07.22"
+      },
+      {
+        "id": "6",
+        "version": "1.0.7",
+        "desc": "[GERAL]\n- Adicionado o comando !csgo perfil\n- Editado parâmetros de ping para menores chances de alertas",
+        "data": "08.07.22"
+    },
+    {
+      "id": "7",
+      "version": "1.0.8",
+      "desc": "[MISC]\n- Consertado vários problemas envolvendo o comando csgo>perfil\n- Comando csgo>devs agora mostra corretamente quandos devs estão online\n- Removido logs por motivos de spam\n[REWORK]\n- Páginas de comandos retrabalhadas\n- Novo método de manuseio de comandos (Handler)\n- Prefixo alterado para 'csgo>'",
+      "data": "10.07.22"
+  },
+  {
+    "id": "8",
+    "version": "1.0.9",
+    "desc": "[MISC]\n- Adicionado função de lista no comando csgo>sobre\n- Arrumado problemas com o bot não gostando de responder você",
+    "data": "12.07.22"
+},
+{
+  "id": "9",
+  "version": "1.1.0 :tada:",
+  "desc": "[MISC]\n- Já que estamos na 1.1.0 estou liberando o código do bot na github, use csgo>code\n[LINGUAGEM]\n- Múltiplos erros de digitação arrumados.",
+  "data": "13.07.22"
+},
+{
+  "id": "10",
+  "version": "1.1.1",
+  "desc": "[GERAL]\n- Arrumado erros gerais (Obrigado Luar :heart:)\n- Rewrite do comando de notas\n- Renomeado o comando `csgo>status` para `csgo>datacenters`\n- Agora o comando `csgo>status` mostra o estado dos servidores da Comunidade/WebAPI/Loja",
+  "data": "16.07.22"
+}
       ]
 }
