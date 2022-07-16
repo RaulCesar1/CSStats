@@ -40,7 +40,7 @@ client.on('ready', () => {
       type: 'PLAYING'
     },
     {
-      name: `Utilize !csgo ajuda para ver meus comandos `,
+      name: `Utilize csgo>ajuda para ver meus comandos `,
       type: 'PLAYING'
     }
   ];
@@ -58,7 +58,7 @@ client.on('ready', () => {
 
 client.on('message', message => {
   if (message.content.startsWith('<@989349457726418964>')) {
-    message.reply('opa! Quer saber meus comandos? Utilize `!csgo ajuda`')
+    message.reply('opa! Quer saber meus comandos? Utilize `csgo>ajuda`')
   }
 })
 client.on('message', async message => {
