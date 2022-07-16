@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const axios = require('axios')
-exports.run = async (client, message, args, config, dotenv) => {
+exports.run = async (client, message, args, prefix, dotenv) => {
   try {
     var req = await axios.get(`https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${process.env.KEY}`)
     var dc = req.data.result.datacenters
