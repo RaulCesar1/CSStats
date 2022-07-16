@@ -1,0 +1,22 @@
+{
+    "ids": [
+        {
+          "id": "1",
+          "version": "1.0.2",
+          "desc": "[LINGUAGEM]\n- Corrigido pequenos erros de tradução para melhor compreensão.\n[GERAL]\n- Adicionado comando de Notas de Atualização.",
+          "data": "29.06.22"
+        },
+        {
+          "id": "2",
+          "version": "1.0.3",
+          "desc": "[GERAL]\n- O comando `csgo caiu` agora aceita letras maiúsculas (Obrigado RbM!)\n- Adicionado Fallbacks para quando a Web API cair o bot não cair junto.\n- Adicionado o comando de report de bugs e sugestões.\n[LINGUAGEM]\n- Pequeno polimento em certas respostas.",
+          "data": "30.06.22"
+        },
+        {
+          "id": "3",
+          "version": "1.0.4",
+          "desc": "[GERAL]\n- Adicionado um alerta para quando bot está sofrendo de lentidão.",
+          "data": "01.07.22"
+        }
+      ]
+}

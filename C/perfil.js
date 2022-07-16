@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const axios = require('axios')
-exports.run = async (client, message, args, config, dotenv) => {
+exports.run = async (client, message, args, prefix, dotenv) => {
   if (!args[0]) {
     return message.reply('utilize `csgo>perfil <custom / id> <URL customizada/ID da Steam do usuário>`')
   }
