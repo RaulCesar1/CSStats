@@ -12,7 +12,7 @@ exports.run = async (client, message, args, config) => {
     const requestTres = await axios.get(WAPI);
 
     axios.all([requestUm, requestDois, requestTres]).then(
-      axios.spread((...responses) => {
+      axios.spread(async (...responses) => {
         let respostaUm = responses[0];
         let respostaDois = responses[1];
         let respostaTres = responses[2];
@@ -21,16 +21,16 @@ exports.run = async (client, message, args, config) => {
           var CASOS;
           switch (res) {
             case 200:
-              CASOS = '`Normal`';
+              CASOS = '`> Normal ☑️`';
               break;
             case 404:
-              CASOS = '`Não encontrado`';
+              CASOS = '`> Não encontrado ❓`';
               break;
             case 500:
-              CASOS = '`Erro do Servidor Interno`';
+              CASOS = '`> Erro do Servidor Interno ❌`';
               break;
             case 503:
-              CASOS = '`Serviço não disponível`';
+              CASOS = '`> Serviço não disponível ❌❌`';
               break;
             default:
               CASOS = res;
@@ -44,10 +44,9 @@ exports.run = async (client, message, args, config) => {
           .addField(`Loja`, responseObj(respostaUm.status))
           .addField(`Comunidade`, responseObj(respostaDois.status))
           .addField(`Web API`, responseObj(respostaTres.status));
-        message.channel.startTyping().then((msg) => {
-          msg.edit(embed);
-          message.channel.stopTyping();
-        });
+        message.channel.startTyping();
+        await message.reply(embed);
+        await message.channel.stopTyping();
 
         console.log(
           respostaUm.status,
