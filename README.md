@@ -1,2 +1,4 @@
 # ABOUT
-CSGO Server Checker
+Repo do bot CSGO? Status.
+
+(Licença MIT)
