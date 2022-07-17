@@ -77,7 +77,8 @@ exports.run = async (client, message, args, prefix) => {
       const d = new Date(EpochTime);
       const dataCorreta = d.toLocaleString();
       const dataCorreta2 = d2.toLocaleString();
-      message.reply(
+      await message.channel.startTyping();
+      await message.reply(
         criar_embed(
           req1.data.response.players.player[0].personaname,
           req1.data.response.players.player[0].loccountrycode,
@@ -86,10 +87,11 @@ exports.run = async (client, message, args, prefix) => {
           req2.data.response.player_level,
           req1.data.response.players.player[0].avatarfull,
           args[1],
-          req3.data2.players[0].VACBanned,
-          req3.data2.players[0].CommunityBanned
+          req3.data.players[0].VACBanned,
+          req3.data.players[0].CommunityBanned
         )
       );
+      await message.channel.stopTyping();
     }
   } else if (args[0].toLowerCase() === 'custom') {
     var req1 = await axios.get(
@@ -112,7 +114,8 @@ exports.run = async (client, message, args, prefix) => {
     const d = new Date(EpochTime);
     const dataCorreta = d.toLocaleString();
     const dataCorreta2 = d2.toLocaleString();
-    message.reply(
+    await message.channel.startTyping();
+    await message.reply(
       criar_embed(
         req2.data.response.players.player[0].personaname,
         req2.data.response.players.player[0].loccountrycode,
@@ -125,5 +128,6 @@ exports.run = async (client, message, args, prefix) => {
         req4.data.players[0].CommunityBanned
       )
     );
+    await message.channel.stopTyping();
   }
 };

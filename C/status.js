@@ -44,7 +44,10 @@ exports.run = async (client, message, args, config) => {
           .addField(`Loja`, responseObj(respostaUm.status))
           .addField(`Comunidade`, responseObj(respostaDois.status))
           .addField(`Web API`, responseObj(respostaTres.status));
-        message.reply(embed);
+        message.channel.startTyping().then((msg) => {
+          msg.edit(embed);
+          message.channel.stopTyping();
+        });
 
         console.log(
           respostaUm.status,
@@ -58,5 +61,6 @@ exports.run = async (client, message, args, config) => {
     );
   } catch (e) {
     console.log(e);
+    message.reply('ERRO 429, muitos pedidos!');
   }
 };
