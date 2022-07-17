@@ -3,16 +3,21 @@ require('dotenv').config();
 exports.run = async (client, message, args, prefix) => {
   const embed = new Discord.RichEmbed()
     .setAuthor(`COMANDOS`, client.user.avatarURL)
-    .addField(`${prefix}geral`, `Mostra o status de outros servidores`, true)
-    .addField(`${prefix}status`, `Mostra o status dos datacenters`, true)
+    .addField(
+      `${prefix}geral`,
+      `Mostra o status geral dos servidores do CS:GO`,
+      true
+    )
+    .addField(
+      `${prefix}status`,
+      `Mostra o status dos servidores da Steam`,
+      true
+    )
+    .addField(`${prefix}datacenters`, `Mostra o status dos datacenters`, true)
     .addField(`csgo caiu`, `Resposta rápida sobre o servidor do Brasil`, true)
     .addField(`${prefix}sobre`, `Mostra o sobre mim do bot`, true)
     .addField(`${prefix}notas`, `Mostra as notas de atualização do bot`, true)
-    .addField(
-      `${prefix}report`,
-      `Comando para reportar bugs ou enviar sugestões`,
-      true
-    )
+    .addField(`${prefix}report`, `Reportar bugs ou enviar sugestões`, true)
     .addField(
       `${prefix}devs`,
       'Mostra se algum desenvolvedor do CSGO e o desenvolvedor está online',

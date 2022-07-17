@@ -7,12 +7,6 @@ exports.run = async (client, message, args, prefix) => {
   let argumentos = args.join(' ');
 
   try {
-    let id = message.id;
-    client.channels.get('994040224160161932').send(
-      `O usuário
-          ${message.author.username}
-           **reportou um bug/sugestão**`
-    );
     client.channels.get('992172780848156763').send(
       `bug/sugestão enviada: **
           ${argumentos}
