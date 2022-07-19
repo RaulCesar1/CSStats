@@ -65,6 +65,11 @@
   "version": "1.2.0 :tada:",
   "desc": "[GERAL]\n - Refactory completo do código do bot (veja a GitHub para mais detalhes)\n- Código atualizado para a versão 13.9 da API do Discord.js\n[VISUAL]\n- Botões para ver páginas completamente refeitos\n- Visual de algumas mensagens alterado\n[LINGUAGEM]\n- Erros de escrita corrigidos",
   "data": "18.07.22"
+},
+{
+  "id": "12",
+  "version": "1.2.1",
+  "desc": "[MISC]\n- Agora o comando `csgo caiu` (e `cs caiu`) falam sobre a sessão de logon.\n- Corrigido um problema de crash quando o comando `csgo>devs` era executado"
 }
       ]
 }
