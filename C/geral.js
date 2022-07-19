@@ -1,28 +1,22 @@
 const Discord = require('discord.js');
 const axios = require('axios');
 require('dotenv').config();
-(exports.run = async (client, message, args, prefix) => {
-  var req = await axios.get(
-    `https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${process.env.KEY}`
-  );
-
-  const embed = new Discord.RichEmbed()
-    .setAuthor('⚠️ Steam CSGO Status ⚠️') //SURGE - NORMAL
-    .setDescription(
-      `Sessão de Logon **${req.data.result.services.SessionsLogon}**\n Comunidade **${req.data.result.services.SteamCommunity}**\nMatchmaker ** ${req.data.result.matchmaking.scheduler} **\n *tempo de espera ~${req.data.result.matchmaking.search_seconds_avg}s*`
-    );
-  message.channel.send(embed).then((MR) => {
-    var ping = MR.createdTimestamp - message.createdTimestamp;
-    console.log(ping);
-    if (ping >= 1000) {
-      message.channel.send(
-        '> *Hm... Meu ping parece estar elevado... Algumas coisas podem demorar para acontecer....*'
+exports.run = async (client, message, args, prefix) => {
+  await message.channel.sendTyping();
+  var req = await axios
+    .get(
+      `https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${process.env.KEY}`
+    )
+    .catch(function (error) {
+      message.reply(
+        'não consigo acessar a WebAPI no momento, tente novamente mais tarde.'
       );
-    }
-  });
-}),
-  (error) => {
-    message.reply(
-      'não consigo acessar a WebAPI no momento, desculpe! (isso significa que a API caiu!)'
+    });
+
+  const embed = new Discord.MessageEmbed()
+    .setAuthor({ name: '⚠️ Steam CSGO Status ⚠️' }) //SURGE - NORMAL
+    .setDescription(
+      `Sessão de Logon **${req.data.result.services.SessionsLogon}**\n Comunidade (CSGO) **${req.data.result.services.SteamCommunity}**\nMatchmaker ** ${req.data.result.matchmaking.scheduler} **\n *tempo de espera ~${req.data.result.matchmaking.search_seconds_avg}s*`
     );
-  };
+  message.reply({ embeds: [embed] });
+};

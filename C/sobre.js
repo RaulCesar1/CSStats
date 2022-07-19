@@ -1,92 +1,106 @@
 const Discord = require('discord.js');
 const package = require('../package.json');
-require("dotenv").config();
+require('dotenv').config();
 exports.run = async (client, message, args, prefix) => {
-  let user = client.users.find((u) => u.tag === 'lunx#6699');
-  const embed1 = new Discord.RichEmbed()
-    .setAuthor('Sobre mim', client.user.avatarURL)
-    .addField('Criado por:', 'Lunx *(amiga do Luar)*', true)
-    .addField('Versão do bot:', 'RELEASE 1.1.0', true)
-    .addField(
-      'Sobre o bot:',
-      `discord.js ${package.dependencies['discord.js'].substring(
-        1
-      )}\naxios ${package.dependencies['axios'].substring(1)}`,
-      true
-    )
-    .addField(
-      'Contato do Desenvolvedor:',
-      'Discord: Lunx#6699\nTwitter: [@akaLunx](https://twitter.com/akaLunx)\nSteam: [/id/Lunixyz](https://steamcommunity.com/id/Lunixyz/)',
-      true
-    );
+  await message.channel.sendTyping();
+  try {
+    const embed1 = new Discord.MessageEmbed()
+      .setAuthor({ name: 'Sobre mim', iconURL: client.user.avatarURL })
+      .setColor('AQUA')
+      .addFields([
+        {
+          name: 'Criado por:',
+          value: 'Lunx *(amigo do Luar)*',
+          inline: true,
+        },
+        {
+          name: 'Versão do bot:',
+          value: 'RELEASE 1.2.0',
+          inline: true,
+        },
+        {
+          name: 'Sobre o bot:',
+          value: `discord.js ${
+            package.dependencies['discord.js']
+          }\naxios ${package.dependencies['axios'].substring(1)}`,
+          inline: true,
+        },
+        {
+          name: 'Contato do Desenvolvedor',
+          value:
+            'Discord: lunx 月#6699\nTwitter: [@akaLunx](https://twitter.com/akaLunx)\nSteam: [/id/Lunixyz](https://steamcommunity.com/id/Lunixyz/)',
+        },
+      ]);
 
-  const embed2 = new Discord.RichEmbed()
-    .setAuthor('Sobre o Desenvolvedor', client.user.avatarURL)
-    .setDescription('Olá, desde já, obrigado por utilizar meu bot!')
-    .addField(
-      'Propósito do bot?',
-      'Originalmente criei esse BOT com a ideia de ajudar quem não curte sair do conforto do Discord para checar o steamstat.us' +
-        '(a ideia não é de forma alguma diminuir o acesso ao steamstat.us, mas sim facilitar acesso ao status dos servidores.)'
-    )
-    .addField(
-      'Quem sou eu?',
-      'Eu sou um garoto homosexual Brasileiro que sempre está indo atrás de conhecimento e respostas.'
-    );
-  message.reply(embed1).then(async (r) => {
-    var ping = r.createdTimestamp - message.createdTimestamp;
-    console.log(ping);
-    if (ping >= 1000) {
-      message.channel.send(
-        '> *Hm... Meu ping parece estar elevado... Algumas coisas podem demorar para acontecer....*'
+    const embed2 = new Discord.MessageEmbed()
+      .setAuthor('Sobre o Desenvolvedor', client.user.avatarURL)
+      .setDescription('Olá, desde já, obrigado por utilizar meu bot!')
+      .addFields([
+        {
+          name: 'Propósito do bot?',
+          value:
+            'Originalmente criei esse BOT com a ideia de ajudar quem não curte sair do conforto do Discord para checar o steamstat.us\n(a ideia não é de forma alguma diminuir o acesso ao steamstat.us, mas sim facilitar acesso ao status dos servidores.)',
+        },
+        {
+          name: 'Quem sou eu?',
+          value:
+            'Eu sou um garoto homosexual Brasileiro que sempre está indo atrás de conhecimento e respostas.',
+        },
+      ]);
+    const embeds = [embed1, embed2];
+    const id = message.author.id;
+    const pages = {};
+
+    pages[id] = pages[id] || 0;
+    const embed = embeds[pages[id]];
+    const user = message.author;
+
+    const filter = (message) => message.user.id === user.id;
+    const time = 1000 * 60 * 5;
+    const getRow = (id) => {
+      const row = new Discord.MessageActionRow();
+      row.addComponents(
+        new Discord.MessageButton()
+          .setCustomId('ret_b')
+          .setStyle('SECONDARY')
+          .setEmoji('◀️')
+          .setDisabled(pages[id] === 0)
       );
-    }
-    FLT = 1;
-    await r.react('◀️');
-    await r.react('⏺');
-    await r.react('▶️');
-
-    let filter = (reaction, user) =>
-      reaction.emoji.name === '▶️' && user.id === message.author.id;
-    let collector = r.createReactionCollector(filter, {
-      time: 300000,
+      row.addComponents(
+        new Discord.MessageButton()
+          .setCustomId('pro_b')
+          .setStyle('SECONDARY')
+          .setEmoji('▶️')
+          .setDisabled(pages[id] === embeds.length - 1)
+      );
+      return row;
+    };
+    reply = await message.reply({
+      embeds: [embed],
+      components: [getRow(id)],
     });
-    collector.on('collect', (em) => {
-      FLT++;
-      if (FLT == 2) {
-        r.edit(embed2);
-        em.remove(message.author.id);
-        console.log(FLT);
-      } else if (FLT == 3) {
-        FLT--;
-        em.remove(message.author.id);
-        console.log(FLT);
+    collector = reply.createMessageComponentCollector({ filter, time });
+    collector.on('collect', (botao) => {
+      if (!botao) {
+        return;
+      }
+      botao.deferUpdate();
+      if (botao.customId !== 'ret_b' && botao.customId !== 'pro_b') {
+        return;
+      }
+      if (botao.customId == 'ret_b' && pages[id] > 0) {
+        --pages[id];
+      } else if (botao.customId === 'pro_b' && pages[id] < embeds.length - 1) {
+        ++pages[id];
+      }
+      if (reply) {
+        reply.edit({
+          embeds: [embeds[pages[id]]],
+          components: [getRow(id)],
+        });
       }
     });
-
-    let filter2 = (reaction, user) =>
-      reaction.emoji.name === '◀️' && user.id === message.author.id;
-    let collector2 = r.createReactionCollector(filter2, {
-      time: 300000,
-    });
-    collector2.on('collect', (em) => {
-      em.remove(message.author.id);
-
-      if (FLT == -1) {
-        return null;
-      } else if (FLT == 2) {
-        FLT--;
-        r.edit(embed1);
-        em.remove(message.author.id);
-        console.log(FLT);
-      }
-    });
-    let filter3 = (reaction, user) =>
-      reaction.emoji.name === '⏺' && user.id === message.author.id;
-    let collector3 = r.createReactionCollector(filter3, {
-      time: 300000,
-    });
-    collector3.on('collect', (em) => {
-      r.delete();
-    });
-  });
+  } catch (e) {
+    console.log(e);
+  }
 };

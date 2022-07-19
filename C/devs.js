@@ -2,12 +2,17 @@ const Discord = require('discord.js');
 const axios = require('axios');
 require('dotenv').config();
 exports.run = async (client, message, args, prefix) => {
-  let user = client.users.find((u) => u.tag === 'lunx#6699');
+  await message.channel.sendTyping();
+  const member = await message.guild.members.fetch({
+    user: '434360273726341160',
+    withPresences: true,
+    force: true,
+  });
   var req = await axios.get(
     `http://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v0001/?appid=710&key=${process.env.KEY}`
   );
   var status;
-  switch (user.presence.status) {
+  switch (member.presence.status) {
     case 'online':
       status = 'online';
       break;
@@ -21,8 +26,8 @@ exports.run = async (client, message, args, prefix) => {
       status = 'offline';
       break;
   }
-  const embed = new Discord.RichEmbed()
-    .setAuthor('DESENVOLVEDORES', client.user.avatarURL)
+  const embed = new Discord.MessageEmbed()
+    .setAuthor({ name: 'DESENVOLVEDORES', iconURL: client.user.avatarURL })
     .addField(
       'Desenvolvedores do CSGO:',
       req.data.response.player_count > 0
@@ -30,6 +35,6 @@ exports.run = async (client, message, args, prefix) => {
         : 'Nenhum desenvolvedor online.'
     )
     .addField('Desenvolvedor do bot:', 'Lunx está `' + status + '`');
-  message.reply(embed);
-  console.log(user.presence);
+  message.reply({ embeds: [embed] });
+  console.log(member.presence);
 };

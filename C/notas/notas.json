@@ -59,6 +59,12 @@
   "version": "1.1.1",
   "desc": "[GERAL]\n- Arrumado erros gerais (Obrigado Luar :heart:)\n- Rewrite do comando de notas\n- Renomeado o comando `csgo>status` para `csgo>datacenters`\n- Agora o comando `csgo>status` mostra o estado dos servidores da Comunidade/WebAPI/Loja",
   "data": "16.07.22"
+},
+{
+  "id": "11",
+  "version": "1.2.0 :tada:",
+  "desc": "[GERAL]\n - Refactory completo do código do bot (veja a GitHub para mais detalhes)\n- Código atualizado para a versão 13.9 da API do Discord.js\n[VISUAL]\n- Botões para ver páginas completamente refeitos\n- Visual de algumas mensagens alterado\n[LINGUAGEM]\n- Erros de escrita corrigidos",
+  "data": "18.07.22"
 }
       ]
 }

@@ -1,7 +1,10 @@
 const Discord = require('discord.js');
 const axios = require('axios');
+const dc = require('./datacenters/datacenters.json');
+const base = dc.base;
 require('dotenv').config();
 exports.run = async (client, message, args, prefix) => {
+  await message.channel.sendTyping();
   try {
     var req = await axios.get(
       `https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${process.env.KEY}`
@@ -54,249 +57,206 @@ exports.run = async (client, message, args, prefix) => {
       }
       return traduz;
     }
+    let p0 = new Discord.MessageEmbed()
+      .setColor(base.color)
+      .setDescription('Utilize os botões abaixo para navegar');
+    let p1 = new Discord.MessageEmbed().setColor(base.color).addFields([
+      {
+        name: '🇵🇪 Peru',
+        value: `CAPACIDADE:  ${tc('Peru')} \nESTADO:  ${te('Peru')}`,
+        inline: true,
+      },
+      {
+        name: '🇪🇺 Oeste Europeu',
+        value: `CAPACIDADE ${tc('EU West')}\nESTADO: ${te('EU West')}`,
+        inline: true,
+      },
+      {
+        name: '🇪🇺 Leste Europeu',
+        value: `CAPACIDADE ${tc('EU East')}\nESTADO ${te('EU East')}`,
+        inline: true,
+      },
+      {
+        name: '🇵🇱 Polônia',
+        value: `CAPACIDADE ${tc('Poland')}\nESTADO ${te('Poland')}`,
+        inline: true,
+      },
+      {
+        name: '🇮🇳 Leste Indiano',
+        value: `CAPACIDADE ${tc('India East')}\nESTADO ${te('India East')}`,
+        inline: true,
+      },
+      {
+        name: '🇭🇰 Hong Kong',
+        value: `'CAPACIDADE: ${tc('Hong Kong')}\nESTADO: ${te('Hong Kong')}`,
+        inline: true,
+      },
+    ]);
+    let p2 = new Discord.MessageEmbed().setColor(base.color).addFields([
+      {
+        name: '🇪🇸 Espanha',
+        value: `CAPACIDADE: ${tc('Spain')}\nESTADO: ${te('Spain')}`,
+        inline: true,
+      },
+      {
+        name: '🇨🇱 Chile',
+        value: `CAPACIDADE: ${tc('Chile')}\nESTADO: ${te('Chile')}`,
+        inline: true,
+      },
+      {
+        name: '🇺🇸 Sudoeste dos EUA',
+        value: `CAPACIDADE: ${tc('US Southwest')}\nESTADO: ${te(
+          'US Southwest'
+        )}`,
+        inline: true,
+      },
+      {
+        name: '🇺🇸 Sudeste dos EUA',
+        value: `CAPACIDADE: ${tc('US Southeast')}\nESTADO: ${te(
+          'US Southeast'
+        )}`,
+        inline: true,
+      },
+      {
+        name: '🇪🇺 Norte Europeu',
+        value: `CAPACIDADE: ${tc('EU North')}\nESTADO: ${te('EU North')}`,
+        inline: true,
+      },
+    ]);
+    let p3 = new Discord.MessageEmbed().setColor(base.color).addFields([
+      {
+        name: '🇦🇪 Emirados Árabes',
+        value: `CAPACIDADE: ${tc('Emirates')}\nESTADO: ${te('Emirates')}`,
+        inline: true,
+      },
+      {
+        name: '🇺🇸 Noroeste dos EUA',
+        value: `CAPACIDADE: ${tc('US Northwest')}\nESTADO: ${te(
+          'US Northwest'
+        )}`,
+        inline: true,
+      },
+      {
+        name: '🇿🇦 África do Sul',
+        value: `CAPACIDADE: ${tc('South Africa')}\nESTADO: ${te(
+          'South Africa'
+        )}`,
+        inline: true,
+      },
+      {
+        name: '🇧🇷 Brasil',
+        value: `CAPACIDADE: ${tc('Brazil')}\nESTADO: ${te('Brazil')}`,
+        inline: true,
+      },
+      {
+        name: '🇺🇸 Nordeste dos EUA',
+        value: `CAPACIDADE: ${tc('US Northeast')}\nESTADO: ${te(
+          'US Northeast'
+        )}`,
+        inline: true,
+      },
+      {
+        name: '🇯🇵 Japão',
+        value: `CAPACIDADE: ${tc('Japan')}\nESTADO: ${te('Japan')}`,
+        inline: true,
+      },
+    ]);
+    let p4 = new Discord.MessageEmbed().setColor(base.color).addFields([
+      {
+        name: '🇦🇷 Argentina',
+        value: `CAPACIDADE: ${tc('Argentina')}\nESTADO: ${te('Argentina')}`,
+        inline: true,
+      },
+      {
+        name: '🇰🇷 Coréia do Sul',
+        value: `CAPACIDADE: ${tc('South Korea')}\nESTADO: ${te('South Korea')}`,
+        inline: true,
+      },
+      {
+        name: '🇸🇬 Singapura',
+        value: `${te('Singapore')}\nESTADO: ${te('Singapore')}`,
+        inline: true,
+      },
+      {
+        name: '🇦🇺 Austrália',
+        value: `CAPACIDADE: ${tc('Australia')}\nESTADO: ${te('Australia')}`,
+        inline: true,
+      },
+      {
+        name: '🇨🇳 Shanghai',
+        value: `CAPACIDADE: ${tc('China Shanghai')}\nESTADO: ${te(
+          'China Shanghai'
+        )}`,
+        inline: true,
+      },
+      {
+        name: '🇨🇳 Tianjin',
+        value: `CAPACIDADE: ${tc('China Tianjin')}\nESTADO: ${te(
+          'China Tianjin'
+        )}`,
+        inline: true,
+      },
+      {
+        name: '🇨🇳 Guangzhou',
+        value: `CAPACIDADE: ${tc('China Guangzhou')}\nESTADO: ${te(
+          'China Guangzhou'
+        )}`,
+        inline: true,
+      },
+    ]);
 
-    const svr0 = new Discord.RichEmbed()
-      .setAuthor('CSGO Servidores Status ⚠️', client.user.avatarURL)
-      .setDescription(
-        'Utiize os emojis abaixo para navegar pelas páginas.',
-        true
-      )
-      .setColor('#8607ed');
+    const embeds = [p0, p1, p2, p3];
+    const id = message.author.id;
+    const pages = {};
 
-    const svr1 = new Discord.RichEmbed()
-      .setColor('#8607ed')
-      .addField(
-        `🇵🇪 Peru`,
-        ` \nCAPACIDADE:  ${tc('Peru')} \nESTADO:  ${te('Peru')}`,
-        true
-      )
-      .addField(
-        '🇪🇺 Oeste Europeu',
-        'CAPACIDADE: ' + tc('EU West') + '\nESTADO: ' + te('EU West'),
-        true
-      )
-      .addField(
-        '🇪🇺 Leste Europeu',
-        'CAPACIDADE: ' + tc('EU East') + '\nESTADO: ' + te('EU East'),
-        true
-      )
-      .addField(
-        '🇵🇱 Polônia',
-        'CAPACIDADE: ' + tc('Poland') + '\nESTADO: ' + te('Poland'),
-        true
-      )
-      .addField(
-        '🇮🇳 Leste Indiano',
-        'CAPACIDADE: ' + tc('India East') + '\nESTADO: ' + te('India East'),
-        true
-      )
-      .addField(
-        '🇭🇰 Hong Kong',
-        'CAPACIDADE: ' + tc('Hong Kong') + '\nESTADO: ' + te('Hong Kong'),
-        true
-      );
-    //
-    const svr2 = new Discord.RichEmbed()
-      .setColor('#8607ed')
-      .addField(
-        '🇪🇸 Espanha',
-        'CAPACIDADE: ' + tc('Spain') + '\nESTADO: ' + te('Spain'),
-        true
-      )
-      .addField(
-        '🇨🇱 Chile',
-        'CAPACIDADE: ' + tc('Chile') + '\nESTADO: ' + te('Chile'),
-        true
-      )
-      .addField(
-        '🇺🇸 Sudoeste dos EUA',
-        'CAPACIDADE: ' + tc('US Southwest') + '\nESTADO: ' + te('US Southwest'),
-        true
-      )
-      .addField(
-        '🇺🇸 Sudeste dos EUA',
-        'CAPACIDADE: ' + tc('US Southeast') + '\nESTADO: ' + te('US Southeast'),
-        true
-      )
-      .addField(
-        '🇮🇳 India',
-        'CAPACIDADE: ' + tc('India') + '\nESTADO: ' + te('India'),
-        true
-      )
-      .addField(
-        '🇪🇺 Norte Europeu',
-        'CAPACIDADE: ' + tc('EU North') + '\nESTADO: ' + te('EU North'),
-        true
-      );
-    //
-    const svr3 = new Discord.RichEmbed()
-      .setColor('#8607ed')
-      .addField(
-        '🇦🇪 Emirados Árabes',
-        'CAPACIDADE: ' + tc('Emirates') + '\nESTADO: ' + te('Emirates'),
-        true
-      )
-      .addField(
-        '🇺🇸 Noroeste dos EUA',
-        'CAPACIDADE: ' + tc('US Northwest') + '\nESTADO: ' + te('US Northwest'),
-        true
-      )
-      .addField(
-        '🇿🇦 África do Sul',
-        'CAPACIDADE: ' + tc('South Africa') + '\nESTADO: ' + te('South Africa'),
-        true
-      )
-      .addField(
-        '🇧🇷 Brasil',
-        'CAPACIDADE: ' + tc('Brazil') + '\nESTADO: ' + te('Brazil'),
-        true
-      )
-      .addField(
-        '🇺🇸 Nordeste dos EUA',
-        'CAPACIDADE: ' + tc('US Northeast') + '\nESTADO: ' + te('US Northeast'),
-        true
-      )
-      .addField(
-        '🇯🇵 Japão',
-        'CAPACIDADE: ' + tc('Japan') + '\nESTADO: ' + te('Japan'),
-        true
-      );
-    //
-    const svr4 = new Discord.RichEmbed()
-      .setColor('#8607ed')
-      .addField(
-        '🇦🇷 Argentina',
-        'CAPACIDADE: ' + tc('Argentina') + '\nESTADO: ' + te('Argentina'),
-        true
-      )
-      .addField(
-        '🇰🇷 Coréia do Sul',
-        'CAPACIDADE: ' + tc('South Korea') + '\nESTADO: ' + te('South Korea'),
-        true
-      )
-      .addField(
-        '🇸🇬 Singapura',
-        'CAPACIDADE: ' + tc('Singapore') + '\nESTADO: ' + te('Singapore'),
-        true
-      )
-      .addField(
-        '🇦🇺 Austrália',
-        'CAPACIDADE: ' + tc('Australia') + '\nESTADO: ' + te('Australia'),
-        true
-      )
-      .addField(
-        '🇨🇳 Shanghai',
-        'CAPACIDADE: ' +
-          tc('China Shanghai') +
-          '\nESTADO: ' +
-          te('China Shanghai'),
-        true
-      )
-      .addField(
-        '🇨🇳 Tianjin',
-        'CAPACIDADE: ' +
-          tc('China Tianjin') +
-          '\nESTADO: ' +
-          te('China Tianjin'),
-        true
-      )
-      .addField(
-        '🇨🇳 Guangzhou',
-        'CAPACIDADE: ' +
-          tc('China Guangzhou') +
-          '\nESTADO: ' +
-          te('China Guangzhou'),
-        true
-      );
+    pages[id] = pages[id] || 0;
+    const embed = embeds[pages[id]];
+    const user = message.author;
 
-    message.channel.send(svr0).then(async (r) => {
-      var ping = r.createdTimestamp - message.createdTimestamp;
-      console.log(ping);
-      if (ping >= 1000) {
-        message.channel.send(
-          '> *Hm... Meu ping parece estar elevado... Algumas coisas podem demorar para acontecer....*'
-        );
+    const filter = (message) => message.user.id === user.id;
+    const time = 1000 * 60 * 5;
+    const getRow = (id) => {
+      const row = new Discord.MessageActionRow();
+      row.addComponents(
+        new Discord.MessageButton()
+          .setCustomId('ret_b')
+          .setStyle('SECONDARY')
+          .setEmoji('◀️')
+          .setDisabled(pages[id] === 0)
+      );
+      row.addComponents(
+        new Discord.MessageButton()
+          .setCustomId('pro_b')
+          .setStyle('SECONDARY')
+          .setEmoji('▶️')
+          .setDisabled(pages[id] === embeds.length - 1)
+      );
+      return row;
+    };
+    reply = await message.reply({
+      embeds: [embed],
+      components: [getRow(id)],
+    });
+    collector = reply.createMessageComponentCollector({ filter, time });
+    collector.on('collect', (botao) => {
+      if (!botao) {
+        return;
       }
-      FLT = 1;
-      await r.react('◀️');
-      await r.react('⏺');
-      await r.react('▶️');
-
-      let filter = (reaction, user) =>
-        reaction.emoji.name === '▶️' && user.id === message.author.id;
-      let collector = r.createReactionCollector(filter, {
-        time: 300000,
-      });
-      collector.on('collect', (em) => {
-        FLT++;
-        if (FLT == 2) {
-          r.edit(svr1);
-          em.remove(message.author.id);
-          console.log(FLT);
-        } else if (FLT == 3) {
-          r.edit(svr2);
-          em.remove(message.author.id);
-          console.log(FLT);
-        } else if (FLT == 4) {
-          r.edit(svr3);
-          em.remove(message.author.id);
-          console.log(FLT);
-        } else if (FLT == 5) {
-          r.edit(svr4);
-          em.remove(message.author.id);
-          console.log(FLT);
-        } else if (FLT == 6) {
-          FLT--;
-          em.remove(message.author.id);
-          console.log(FLT);
-        }
-      });
-
-      let filter2 = (reaction, user) =>
-        reaction.emoji.name === '◀️' && user.id === message.author.id;
-      let collector2 = r.createReactionCollector(filter2, {
-        time: 300000,
-      });
-      collector2.on('collect', (em) => {
-        em.remove(message.author.id);
-
-        if (FLT == -1) {
-          return null;
-        } else if (FLT == 2) {
-          FLT--;
-          r.edit(svr0);
-          em.remove(message.author.id);
-          console.log(FLT);
-        } else if (FLT == 3) {
-          FLT--;
-          r.edit(svr1);
-          em.remove(message.author.id);
-          console.log(FLT);
-        } else if (FLT == 4) {
-          FLT--;
-          r.edit(svr2);
-          em.remove(message.author.id);
-          console.log(FLT);
-        } else if (FLT == 5) {
-          FLT--;
-          r.edit(svr3);
-          em.remove(message.author.id);
-          console.log(FLT);
-        } else if (FLT == 6) {
-          FLT--;
-          r.edit(svr4);
-          em.remove(message.author.id);
-          console.log(FLT);
-        }
-      });
-      let filter3 = (reaction, user) =>
-        reaction.emoji.name === '⏺' && user.id === message.author.id;
-      let collector3 = r.createReactionCollector(filter3, {
-        time: 300000,
-      });
-      collector3.on('collect', (em) => {
-        r.delete();
-      });
+      botao.deferUpdate();
+      if (botao.customId !== 'ret_b' && botao.customId !== 'pro_b') {
+        return;
+      }
+      if (botao.customId == 'ret_b' && pages[id] > 0) {
+        --pages[id];
+      } else if (botao.customId === 'pro_b' && pages[id] < embeds.length - 1) {
+        ++pages[id];
+      }
+      if (reply) {
+        reply.edit({
+          embeds: [embeds[pages[id]]],
+          components: [getRow(id)],
+        });
+      }
     });
   } catch (e) {
     console.log(e);

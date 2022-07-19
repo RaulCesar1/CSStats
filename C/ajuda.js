@@ -1,37 +1,61 @@
 const Discord = require(`discord.js`);
 require('dotenv').config();
 exports.run = async (client, message, args, prefix) => {
-  const embed = new Discord.RichEmbed()
-    .setAuthor(`COMANDOS`, client.user.avatarURL)
-    .addField(
-      `${prefix}geral`,
-      `Mostra o status geral dos servidores do CS:GO`,
-      true
-    )
-    .addField(
-      `${prefix}status`,
-      `Mostra o status dos servidores da Steam`,
-      true
-    )
-    .addField(`${prefix}datacenters`, `Mostra o status dos datacenters`, true)
-    .addField(`csgo caiu`, `Resposta rápida sobre o servidor do Brasil`, true)
-    .addField(`${prefix}sobre`, `Mostra o sobre mim do bot`, true)
-    .addField(`${prefix}notas`, `Mostra as notas de atualização do bot`, true)
-    .addField(`${prefix}report`, `Reportar bugs ou enviar sugestões`, true)
-    .addField(
-      `${prefix}devs`,
-      'Mostra se algum desenvolvedor do CSGO e o desenvolvedor está online',
-      true
-    )
-    .addField(`${prefix}perfil`, 'Mostra o perfil de um usuário', true)
-    .addField(`${prefix}code`, `Mostra o código fonte do bot`);
-  message.reply(embed).then((MR) => {
-    var ping = MR.createdTimestamp - message.createdTimestamp;
-    console.log(ping);
-    if (ping >= 1000) {
-      message.channel.send(
-        `> *Hm... Meu ping parece estar elevado... Algumas coisas podem demorar para acontecer....*`
-      );
-    }
-  });
+  await message.channel.sendTyping();
+  const embed = new Discord.MessageEmbed()
+    .setAuthor({ name: `COMANDOS`, iconURL: client.user.avatarURL() })
+    .setColor('AQUA')
+    .addFields([
+      {
+        name: `${prefix}geral`,
+        value: `Mostra o status geral dos servidores do CS:GO`,
+        inline: true,
+      },
+      {
+        name: `${prefix}status`,
+        value: `Mostra o status dos servidores da Steam`,
+        inline: true,
+      },
+      {
+        name: `${prefix}datacenters`,
+        value: `Mostra o status dos datacenters`,
+        inline: true,
+      },
+      {
+        name: `${prefix}sobre`,
+        value: `Mostra o sobre mim do bot`,
+        inline: true,
+      },
+      {
+        name: `${prefix}notas`,
+        value: `Mostra as notas de atualização do bot`,
+        inline: true,
+      },
+      {
+        name: `csgo caiu (ou cs caiu)`,
+        value: `Resposta rápida sobre o servidor do Brasil`,
+        inline: true,
+      },
+      {
+        name: `${prefix}report`,
+        value: `Reportar bugs ou enviar sugestões`,
+        inline: true,
+      },
+      {
+        name: `${prefix}devs`,
+        value: `Mostra se algum desenvolvedor do CSGO e o criador do bot está online`,
+        inline: true,
+      },
+      {
+        name: `${prefix}perfil`,
+        value: `Mostra o perfil de um usuário Steam`,
+        inline: true,
+      },
+      {
+        name: `${prefix}code`,
+        value: `Mostra link do código fonte do bot`,
+        inline: true,
+      },
+    ]);
+  message.reply({ embeds: [embed] });
 };

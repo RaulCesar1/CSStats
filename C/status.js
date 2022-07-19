@@ -2,6 +2,7 @@ const { default: axios } = require('axios');
 const Discord = require('discord.js');
 const { response } = require('express');
 exports.run = async (client, message, args, config) => {
+  await message.channel.sendTyping();
   try {
     const S_URL = 'https://store.steampowered.com/';
     const CM_URL = 'https://steammcommunity.com';
@@ -39,14 +40,23 @@ exports.run = async (client, message, args, config) => {
           return CASOS;
         }
 
-        const embed = new Discord.RichEmbed()
-          .setAuthor('STATUS STEAM')
-          .addField(`Loja`, responseObj(respostaUm.status))
-          .addField(`Comunidade`, responseObj(respostaDois.status))
-          .addField(`Web API`, responseObj(respostaTres.status));
-        message.channel.startTyping();
-        await message.reply(embed);
-        await message.channel.stopTyping();
+        const embed = new Discord.MessageEmbed()
+          .setAuthor({ name: 'STATUS STEAM' })
+          .addFields([
+            {
+              name: 'Loja',
+              value: responseObj(respostaUm.status),
+            },
+            {
+              name: 'WebAPI',
+              value: responseObj(respostaTres.status),
+            },
+            {
+              name: 'Comunidade',
+              value: responseObj(respostaDois.status),
+            },
+          ]);
+        await message.reply({ embeds: [embed] });
 
         console.log(
           respostaUm.status,
