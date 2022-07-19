@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 require('dotenv').config();
 
-const aid = '11';
+const aid = '12';
 
 exports.run = async (client, message, args, prefix) => {
   await message.channel.sendTyping();
