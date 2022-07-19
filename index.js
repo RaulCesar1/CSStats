@@ -29,6 +29,16 @@ client.on('messageCreate', async (message) => {
           'Não consigo acessar a WebAPI, tente novamente mais tarde.'
         );
       });
+    var req2 = await axios
+      .get(
+        `https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${process.env.KEY}`
+      )
+      .catch(function (error) {
+        message.reply(
+          'não consigo acessar a WebAPI no momento, tente novamente mais tarde.'
+        );
+      });
+
     await message.react('⁉️');
     let filter = (reaction, user) =>
       reaction.emoji.name === '⁉️' && user.id === message.author.id;
@@ -66,17 +76,17 @@ client.on('messageCreate', async (message) => {
         return traduz;
       }
 
-      if (dc.Brazil.load == 'idle') {
-        message.reply({ content: 'Os servidores do Brasil estão inativos!' });
-      } else {
-        message
-          .reply({
-            content: 'não! Os servidores do Brasil estão com ' + te('Brazil'),
-          })
-          .then((msg) => {
-            setTimeout(() => msg.delete(), 10000);
-          });
-      }
+      message
+        .reply({
+          content: `Os servidores do Brasil estão com ${te(
+            'Brazil'
+          )} e a sessão de logon está \`${
+            req2.data.result.services.SessionsLogon
+          }\`.`,
+        })
+        .then((msg) => {
+          setTimeout(() => msg.delete(), 10000);
+        });
     });
   }
 

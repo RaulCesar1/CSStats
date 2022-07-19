@@ -16,7 +16,7 @@ exports.run = async (client, message, args, prefix) => {
   const embed = new Discord.MessageEmbed()
     .setAuthor({ name: '⚠️ Steam CSGO Status ⚠️' }) //SURGE - NORMAL
     .setDescription(
-      `Sessão de Logon **${req.data.result.services.SessionsLogon}**\n Comunidade (CSGO) **${req.data.result.services.SteamCommunity}**\nMatchmaker ** ${req.data.result.matchmaking.scheduler} **\n *tempo de espera ~${req.data.result.matchmaking.search_seconds_avg}s*`
+      `Sessão de Logon **${req.data.result.services.SessionsLogon}**\n Comunidade **${req.data.result.services.SteamCommunity}**\nMatchmaker ** ${req.data.result.matchmaking.scheduler} **\n *tempo de espera ~${req.data.result.matchmaking.search_seconds_avg}s*`
     );
   message.reply({ embeds: [embed] });
 };

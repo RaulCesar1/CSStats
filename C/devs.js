@@ -20,7 +20,7 @@ exports.run = async (client, message, args, prefix) => {
       status = 'inativo';
       break;
     case 'dnd':
-      status = 'não perturbe';
+      status = 'ocupado';
       break;
     default:
       status = 'offline';
@@ -28,13 +28,21 @@ exports.run = async (client, message, args, prefix) => {
   }
   const embed = new Discord.MessageEmbed()
     .setAuthor({ name: 'DESENVOLVEDORES', iconURL: client.user.avatarURL })
-    .addField(
-      'Desenvolvedores do CSGO:',
-      req.data.response.player_count > 0
-        ? `\`${req.data.response.player_count}\` desenvolvedor(es) online.`
-        : 'Nenhum desenvolvedor online.'
-    )
-    .addField('Desenvolvedor do bot:', 'Lunx está `' + status + '`');
+    .addFields([
+      {
+        name: 'Desenvolvedores do CSGO:',
+        value:
+          req.data.response.player_count > 0
+            ? `\`${req.data.response.player_count}\` desenvolvedor(es) online.`
+            : 'Nenhum desenvolvedor online.',
+      },
+    ])
+    .addFields([
+      {
+        name: 'Desenvolvedor do bot:',
+        value: `Lunx está ${status} `,
+      },
+    ]);
   message.reply({ embeds: [embed] });
   console.log(member.presence);
 };
