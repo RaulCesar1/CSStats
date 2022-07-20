@@ -69,7 +69,15 @@
 {
   "id": "12",
   "version": "1.2.1",
-  "desc": "[MISC]\n- Agora o comando `csgo caiu` (e `cs caiu`) falam sobre a sessão de logon.\n- Corrigido um problema de crash quando o comando `csgo>devs` era executado"
+  "desc": "[MISC]\n- Agora o comando `csgo caiu` (e `cs caiu`) falam sobre a sessão de logon.\n- Corrigido um problema de crash quando o comando `csgo>devs` era executado",
+  "data": "19.07.22"
+},
+{
+  "id": "13",
+  "version" : "1.2.2",
+  "desc" : "[GERAL]\n- Nome e foto de perfil do BOT atualizadas\n[MISC]\n- comando `csgo>marketcheck adicionado.",
+  "data": "19.07.22"
+
 }
-      ]
+]
 }
