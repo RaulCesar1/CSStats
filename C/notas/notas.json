@@ -78,6 +78,12 @@
   "desc" : "[GERAL]\n- Nome e foto de perfil do BOT atualizadas\n[MISC]\n- comando `csgo>marketcheck adicionado.",
   "data": "19.07.22"
 
+},
+{
+  "id": "14",
+  "version": "1.2.3",
+  "desc": "[MISC]\n- Código do comando de mercado refeito\n- O comando `csgo>marketcheck` agora é `csgo>market <Skin/Agente/Cápsula/Adesivo>`",
+  "data": "21.07.22"
 }
 ]
 }
