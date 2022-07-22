@@ -1,11 +1,18 @@
 {
   "dependencies": {
+    "@discordjs/builders": "^1.0.0",
+    "@discordjs/opus": "^0.8.0",
+    "@discordjs/rest": "^1.0.0",
+    "@discordjs/voice": "^0.11.0",
     "autocorrect": "^1.2.0",
     "axios": "^0.27.2",
+    "discord-player": "^5.2.2",
     "discord.js": "13.9.0",
     "dotenv": "^16.0.1",
+    "ffmpeg-static": "^5.0.2",
     "js-levenshtein": "^1.1.6",
     "nodemon": "^2.0.16",
+    "path": "^0.12.7",
     "protobufjs": "^6.11.3"
   },
   "name": "csstats",

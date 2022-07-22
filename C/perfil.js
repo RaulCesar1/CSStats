@@ -24,33 +24,33 @@ exports.run = async (client, message, args, prefix) => {
       let embed = new Discord.MessageEmbed()
         .setColor('AQUA')
         .setAuthor({
-          name: !Autor || Autor === ' ' ? 'Perfil inexistente!' : Autor,
+          name: !Autor || Autor === 'undefined' ? 'Perfil inexistente!' : Autor,
         })
         .addFields([
           {
             name: 'Nacionalidade',
             value:
-              !nac || nac === 'undefined'
+              `${!nac || nac === 'undefined'
                 ? 'Indefinido'
-                : `:flag_${nac.toLowerCase()}: ${nac}`,
+                : `:flag_${nac.toLowerCase()}: ${nac}`}`,
           },
           {
             name: 'Criada em:',
-            value:
-              !criada_em || criada_em === 'Invalid Date'
+            value: `
+              ${!criada_em || criada_em === 'Invalid Date'
                 ? 'Data Inválida/Privada'
-                : criada_em,
+                : criada_em}`,
           },
           {
             name: 'Última vez Online:',
             value:
-              !ultima_online || ultima_online === 'Invalid Date'
+              `${!ultima_online || ultima_online === 'Invalid Date'
                 ? 'Data inválida/Privada'
-                : ultima_online,
+                : ultima_online}`,
           },
           {
             name: 'Level:',
-            value: !level || level === 'undefined' ? 'Indefinido' : level,
+            value: `${!level || level === 'undefined' ? 'Indefinido' : level}`,
           },
         ])
         .setThumbnail(
@@ -58,11 +58,13 @@ exports.run = async (client, message, args, prefix) => {
             ? 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b5bd56c1aa4644a474a2e4972be27ef9e82e517e_full.jpg'
             : thumbnail
         )
-        .setFooter(
-          `Steam ID: ${steam_id}\nVAC? ${
+        .setFooter({
+          text: `Steam ID: ${steam_id}\nVAC? ${
             !vac || vac === 'false' ? 'Não' : 'Sim'
-          }\nBanido da Comunidade? ${!cban || cban === 'false' ? 'Não' : 'Sim'}`
-        );
+          }\nBanido da Comunidade? ${
+            !cban || cban === 'false' ? 'Não' : 'Sim'
+          }`,
+        });
 
       return embed;
     }
@@ -107,6 +109,26 @@ exports.run = async (client, message, args, prefix) => {
         const d = new Date(EpochTime);
         const dataCorreta = d.toLocaleString();
         const dataCorreta2 = d2.toLocaleString();
+        console.log(
+          'nome\n',
+          req1.data.response.players.player[0].personaname,
+          'country\n',
+          req1.data.response.players.player[0].loccountrycode,
+          'criado\n',
+          dataCorreta,
+          'logoff\n',
+          dataCorreta2,
+          'level\n',
+          req2.data.response.player_level,
+          'avatar\n',
+          req1.data.response.players.player[0].avatarfull,
+          'id\n',
+          args[1],
+          'banv\n',
+          req3.data.players[0].VACBanned,
+          'banc\n',
+          req3.data.players[0].CommunityBanned
+        );
         await message.reply({
           embeds: [
             criar_embed(
@@ -168,6 +190,7 @@ exports.run = async (client, message, args, prefix) => {
       const d = new Date(EpochTime);
       const dataCorreta = d.toLocaleString();
       const dataCorreta2 = d2.toLocaleString();
+      console.log(req2.data.response);
       await message.reply({
         embeds: [
           criar_embed(

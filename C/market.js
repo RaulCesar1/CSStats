@@ -67,39 +67,79 @@ exports.run = async (client, message, args, prefix) => {
     }
     var embeds = [
       embed_c(
-        ar[0],
-        ar[ar.length - 24],
-        ar[ar.length - 23],
-        ar[ar.length - 22],
-        ar[ar.length - 21]
+        !ar[0] || ar[0] === 'undefined' ? 'indefinido' : ar[0],
+        !ar[ar.length - 24] || ar[ar.length - 24] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 24],
+        !ar[ar.length - 23] || ar[ar.length - 23] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 23],
+        !ar[ar.length - 22] || ar[ar.length - 22] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 22],
+        !ar[ar.length - 21] || ar[ar.length - 21] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 21]
       ),
       embed_c(
-        ar[5],
-        ar[ar.length - 19],
-        ar[ar.length - 18],
-        ar[ar.length - 17],
-        ar[ar.length - 16]
+        !ar[5] || ar[5] === 'undefined' ? 'indefinido' : ar[5],
+        !ar[ar.length - 19] || ar[ar.length - 19] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 19],
+        !ar[ar.length - 18] || ar[ar.length - 18] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 18],
+        !ar[ar.length - 17] || ar[ar.length - 17] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 17],
+        !ar[ar.length - 16] || ar[ar.length - 16] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 16]
       ),
       embed_c(
-        ar[10],
-        ar[ar.length - 14],
-        ar[ar.length - 13],
-        ar[ar.length - 12],
-        ar[ar.length - 11]
+        !ar[10] || ar[10] === 'undefined' ? 'indefinido' : ar[10],
+        !ar[ar.length - 14] || ar[ar.length - 14] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 14],
+        !ar[ar.length - 13] || ar[ar.length - 13] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 13],
+        !ar[ar.length - 12] || ar[ar.length - 12] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 12],
+        !ar[ar.length - 11] || ar[ar.length - 11] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 11]
       ),
       embed_c(
-        ar[15],
-        ar[ar.length - 9],
-        ar[ar.length - 8],
-        ar[ar.length - 7],
-        ar[ar.length - 6]
+        !ar[15] || ar[15] === 'undefined' ? 'indefinido' : ar[15],
+        !ar[ar.length - 9] || ar[ar.length - 9] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 9],
+        !ar[ar.length - 8] || ar[ar.length - 8] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 8],
+        !ar[ar.length - 7] || ar[ar.length - 7] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 7],
+        !ar[ar.length - 6] || ar[ar.length - 6] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 6]
       ),
       embed_c(
-        ar[20],
-        ar[ar.length - 4],
-        ar[ar.length - 3],
-        ar[ar.length - 2],
-        ar[ar.length - 1]
+        !ar[20] || ar[20] === 'undefined' ? 'indefinido' : ar[20],
+        !ar[ar.length - 4] || ar[ar.length - 4] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 4],
+        !ar[ar.length - 3] || ar[ar.length - 3] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 3],
+        !ar[ar.length - 2] || ar[ar.length - 2] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 2],
+        !ar[ar.length - 1] || ar[ar.length - 1] === 'undefined'
+          ? 'indefinido'
+          : ar[ar.length - 1]
       ),
     ];
     const embed = embeds[pages[id]];
