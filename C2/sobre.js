@@ -1,8 +1,12 @@
 const Discord = require('discord.js');
 const package = require('../package.json');
 require('dotenv').config();
-exports.run = async (client, message, args, prefix) => {
-  await message.channel.sendTyping();
+const { SlashCommandBuilder } = require('@discordjs/builders')
+module.exports = {
+  data: new SlashCommandBuilder()
+      .setName('sobre')
+      .setDescription('mostra o sobre mim do BOT'),
+  async execute(interaction, client) {
   try {
     const embed1 = new Discord.MessageEmbed()
       .setAuthor({ name: 'Sobre mim', iconURL: client.user.avatarURL })
@@ -10,12 +14,12 @@ exports.run = async (client, message, args, prefix) => {
       .addFields([
         {
           name: 'Criado por:',
-          value: 'Lunx *(amigo do Luar)*',
+          value: 'Lunixyz',
           inline: true,
         },
         {
           name: 'Versão do bot:',
-          value: 'RELEASE 1.2.0',
+          value: 'RELEASE 1.2.2',
           inline: true,
         },
         {
@@ -47,15 +51,13 @@ exports.run = async (client, message, args, prefix) => {
             'Eu sou um garoto homosexual Brasileiro que sempre está indo atrás de conhecimento e respostas.',
         },
       ]);
-    const embeds = [embed1, embed2];
-    const id = message.author.id;
-    const pages = {};
+      const embeds = [embed1, embed2];
+      const pages = {}
+      const user = interaction.user
+      const id = user.id
+      pages[id] = pages[id] || 0
 
-    pages[id] = pages[id] || 0;
-    const embed = embeds[pages[id]];
-    const user = message.author;
-
-    const filter = (message) => message.user.id === user.id;
+    const filter = (message) => message.user.id === user.id
     const time = 1000 * 60 * 5;
     const getRow = (id) => {
       const row = new Discord.MessageActionRow();
@@ -75,11 +77,14 @@ exports.run = async (client, message, args, prefix) => {
       );
       return row;
     };
-    reply = await message.reply({
+    const embed = embeds[pages[id]]
+    let collector
+    interaction.reply({
+      ephemeral: true,
       embeds: [embed],
       components: [getRow(id)],
-    });
-    collector = reply.createMessageComponentCollector({ filter, time });
+    })
+    collector = interaction.channel.createMessageComponentCollector({ filter, time })
     collector.on('collect', (botao) => {
       if (!botao) {
         return;
@@ -93,14 +98,13 @@ exports.run = async (client, message, args, prefix) => {
       } else if (botao.customId === 'pro_b' && pages[id] < embeds.length - 1) {
         ++pages[id];
       }
-      if (reply) {
-        reply.edit({
-          embeds: [embeds[pages[id]]],
-          components: [getRow(id)],
-        });
-      }
-    });
+      interaction.editReply({
+        embeds: [embeds[pages[id]]],
+        components: [getRow(id)],
+       })
+      })
   } catch (e) {
     console.log(e);
   }
-};
+}
+}

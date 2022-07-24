@@ -1,9 +1,13 @@
 const Discord = require('discord.js');
 const axios = require('axios');
+const { SlashCommandBuilder } = require('@discordjs/builders')
 require('dotenv').config();
-exports.run = async (client, message, args, prefix) => {
-  await message.channel.sendTyping();
-  const member = await message.guild.members.fetch({
+module.exports = {
+  data: new SlashCommandBuilder()
+      .setName('dev')
+      .setDescription('Mostra os desenvolvedores online'),
+  async execute(interaction, client) {
+  const member = await interaction.guild.members.fetch({
     user: '434360273726341160',
     withPresences: true,
     force: true,
@@ -43,6 +47,7 @@ exports.run = async (client, message, args, prefix) => {
         value: `Lunx está ${status} `,
       },
     ]);
-  message.reply({ embeds: [embed] });
+  interaction.reply({ embeds: [embed], ephemeral: true });
   console.log(member.presence);
-};
+}
+}

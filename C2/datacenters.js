@@ -1,10 +1,14 @@
 const Discord = require('discord.js');
 const axios = require('axios');
-const dc = require('./datacenters/datacenters.json');
+const dc = require('../C/datacenters/datacenters.json');
 const base = dc.base;
 require('dotenv').config();
-exports.run = async (client, message, args, prefix) => {
-  await message.channel.sendTyping();
+const { SlashCommandBuilder } = require('@discordjs/builders')
+module.exports = {
+  data: new SlashCommandBuilder()
+      .setName('datacenters')
+      .setDescription('mostra o estado dos datacenters do CS:GO'),
+  async execute(interaction, client) {
   try {
     var req = await axios.get(
       `https://api.steampowered.com/ICSGOServers_730/GetGameServersStatus/v1/?key=${process.env.KEY}`
@@ -206,15 +210,10 @@ exports.run = async (client, message, args, prefix) => {
     ]);
 
     const embeds = [p0, p1, p2, p3];
-    const id = message.author.id;
-    const pages = {};
-
-    pages[id] = pages[id] || 0;
-    const embed = embeds[pages[id]];
-    const user = message.author;
-
-    const filter = (message) => message.user.id === user.id;
-    const time = 1000 * 60 * 5;
+    const pages = {}
+    const user = interaction.user
+    const id = user.id
+    pages[id] = pages[id] || 0
     const getRow = (id) => {
       const row = new Discord.MessageActionRow();
       row.addComponents(
@@ -226,39 +225,56 @@ exports.run = async (client, message, args, prefix) => {
       );
       row.addComponents(
         new Discord.MessageButton()
-          .setCustomId('pro_b')
+          .setCustomId('avc_b')
           .setStyle('SECONDARY')
           .setEmoji('▶️')
           .setDisabled(pages[id] === embeds.length - 1)
       );
       return row;
     };
-    reply = await message.reply({
+    const embed = embeds[pages[id]]
+    let collector
+
+    const filter = (message) => message.user.id === user.id
+    const time = 1000 * 60 * 5
+    
+    interaction.reply({
+      ephemeral: true,
       embeds: [embed],
       components: [getRow(id)],
-    });
-    collector = reply.createMessageComponentCollector({ filter, time });
+    })
+    collector = interaction.channel.createMessageComponentCollector({ filter, time })
+
+
     collector.on('collect', (botao) => {
-      if (!botao) {
-        return;
+      if(!botao) {
+        return
       }
-      botao.deferUpdate();
-      if (botao.customId !== 'ret_b' && botao.customId !== 'pro_b') {
-        return;
+      botao.deferUpdate()
+
+      if(
+        botao.customId !== "ret_b" &&
+        botao.customId !== "avc_b"
+      ) {
+        return
       }
-      if (botao.customId == 'ret_b' && pages[id] > 0) {
-        --pages[id];
-      } else if (botao.customId === 'pro_b' && pages[id] < embeds.length - 1) {
-        ++pages[id];
+
+      if(botao.customId === "ret_b" && pages[id] > 0) {
+        --pages[id]
       }
-      if (reply) {
-        reply.edit({
-          embeds: [embeds[pages[id]]],
-          components: [getRow(id)],
-        });
-      }
-    });
+     if(botao.customId === "avc_b" && pages[id] < embeds.length -1) {
+      ++pages[id]
+     }
+     interaction.editReply({
+      embeds: [embeds[pages[id]]],
+      components: [getRow(id)],
+     })
+    })
+    
+
+
   } catch (e) {
     console.log(e);
   }
-};
+}
+}

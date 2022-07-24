@@ -1,22 +1,27 @@
 const { default: axios } = require('axios');
 const Discord = require('discord.js');
-const { response } = require('express');
-exports.run = async (client, message, args, config) => {
-  await message.channel.sendTyping();
-  try {
+const { SlashCommandBuilder } = require('@discordjs/builders')
+module.exports = {
+  data: new SlashCommandBuilder()
+      .setName('steamstatus')
+      .setDescription('mostra o estado geral dos serviços da Steam'),
+  async execute(interaction, client) {
     const S_URL = 'https://store.steampowered.com/';
     const CM_URL = 'https://steammcommunity.com';
     const WAPI =
       'https://api.steampowered.com/ISteamWebAPIUtil/GetServerinfo/v1/';
+    const PLRS = 'https://www.valvesoftware.com/es/about/stats'
     const requestUm = await axios.get(S_URL);
     const requestDois = await axios.get(CM_URL);
     const requestTres = await axios.get(WAPI);
+    const requestQuatro = await axios.get(PLRS);
 
-    axios.all([requestUm, requestDois, requestTres]).then(
+    axios.all([requestUm, requestDois, requestTres, requestQuatro]).then(
       axios.spread(async (...responses) => {
         let respostaUm = responses[0];
         let respostaDois = responses[1];
         let respostaTres = responses[2];
+        let respostaQuatro = responses[3];
 
         function responseObj(res) {
           var CASOS;
@@ -41,35 +46,31 @@ exports.run = async (client, message, args, config) => {
         }
 
         const embed = new Discord.MessageEmbed()
-          .setAuthor({ name: 'STATUS STEAM' })
+          .setAuthor({ name: 'Serviços Steam ⚠️' })
           .addFields([
             {
+              name: 'Usuários online na Steam',
+              value: `${responseObj(respostaQuatro.data.users_online)}`
+            },
+            {
+              name: 'Usuários jogando na Steam',
+              value: `${responseObj(respostaQuatro.data.users_ingame)}`
+            },
+            {
               name: 'Loja',
-              value: responseObj(respostaUm.status),
+              value: `${responseObj(respostaUm.status)}`,
             },
             {
               name: 'WebAPI',
-              value: responseObj(respostaTres.status),
+              value: `${responseObj(respostaTres.status)}`,
             },
             {
               name: 'Comunidade',
-              value: responseObj(respostaDois.status),
+              value: `${responseObj(respostaDois.status)}`,
             },
           ]);
-        await message.reply({ embeds: [embed] });
-
-        console.log(
-          respostaUm.status,
-          respostaDois.status,
-          respostaTres.status,
-          respostaUm.statusText,
-          respostaTres.statusText,
-          respostaDois.statusText
-        );
+        interaction.reply({ embeds: [embed], ephemeral: true });
       })
     );
-  } catch (e) {
-    console.log(e);
-    message.reply('ERRO 429, muitos pedidos!');
-  }
+},
 };

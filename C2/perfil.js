@@ -1,14 +1,18 @@
 const Discord = require('discord.js');
 const axios = require('axios');
 require('dotenv').config();
-exports.run = async (client, message, args, prefix) => {
+const { SlashCommandBuilder } = require('@discordjs/builders')
+module.exports = {
+  data: new SlashCommandBuilder()
+      .setName('perfil')
+      .setDescription('mostra o perfil de um usuário da Steam')
+      .addBooleanOption(option => option.setName('escolha').setDescription('True para procurar perfil utilizando ID e False para utilizar URL customizada.'))
+      .addStringOption(option => option.setName('pesquisa').setDescription('Digite a URL customizada ou ID')),
+  async execute(interaction, client) {
   try {
-    await message.channel.sendTyping();
-    if (!args[0]) {
-      return message.reply(
-        'utilize `csgo>perfil <custom / id> <URL customizada/ID da Steam do usuário>`'
-      );
-    }
+    const boolean = interaction.options.getBoolean('escolha');
+    const string = interaction.options.getString('pesquisa');
+    console.log(boolean, string)
 
     function criar_embed(
       Autor,
@@ -69,37 +73,37 @@ exports.run = async (client, message, args, prefix) => {
       return embed;
     }
 
-    if (args[0].toLowerCase() === 'id') {
+    if (boolean === true) {
       var req1 = await axios
         .get(
-          `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v1/?steamids=${args[1]}&key=${process.env.KEY}`
+          `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v1/?steamids=${string}&key=${process.env.KEY}`
         )
         .catch(function (error) {
-          message.reply(
+          interaction.reply(
             'Não consigo acessar o `GetPlayerSummaries`, tente usar esse comando mais tarde.'
           );
         });
       var req2 = await axios
         .get(
-          `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?steamid=${args[1]}&key=${process.env.KEY}`
+          `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?steamid=${string}&key=${process.env.KEY}`
         )
         .catch(function (error) {
-          message.reply(
+          interaction.reply(
             'Não consigo acessar o `GetSteamLevel`, tente usar esse comando mais tarde.'
           );
         });
       var req3 = await axios
         .get(
-          `https://api.steampowered.com/ISteamUser/GetPlayerBans/v1?steamids=${args[1]}&key=${process.env.KEY}`
+          `https://api.steampowered.com/ISteamUser/GetPlayerBans/v1?steamids=${string}&key=${process.env.KEY}`
         )
         .catch(function (error) {
-          message.reply(
+          interaction.reply(
             'Não consigo acessar o `GetPlayerBans`, tente usar esse comando mais tarde.'
           );
         });
 
       if (req1.data.response.players.player[0].personaname === 'undefined') {
-        return message.reply('Este perfil é inexistente!');
+        return interaction.reply('Este perfil é inexistente!');
       } else {
         const EpochTime =
           req1.data.response.players.player[0].timecreated * 1000;
@@ -123,13 +127,13 @@ exports.run = async (client, message, args, prefix) => {
           'avatar\n',
           req1.data.response.players.player[0].avatarfull,
           'id\n',
-          args[1],
+          string,
           'banv\n',
           req3.data.players[0].VACBanned,
           'banc\n',
           req3.data.players[0].CommunityBanned
         );
-        await message.reply({
+        await interaction.reply({
           embeds: [
             criar_embed(
               req1.data.response.players.player[0].personaname,
@@ -138,20 +142,20 @@ exports.run = async (client, message, args, prefix) => {
               dataCorreta2,
               req2.data.response.player_level,
               req1.data.response.players.player[0].avatarfull,
-              args[1],
+              string,
               req3.data.players[0].VACBanned,
               req3.data.players[0].CommunityBanned
             ),
           ],
         });
       }
-    } else if (args[0].toLowerCase() === 'custom') {
+    } else if (boolean === false) {
       var req1 = await axios
         .get(
-          `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?vanityurl=${args[1]}&key=${process.env.KEY}`
+          `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?vanityurl=${string}&key=${process.env.KEY}`
         )
         .catch(function (error) {
-          message.reply(
+          interaction.reply(
             'Não consigo acessar o `ResolveVanityURL`, tente usar esse comando mais tarde.'
           );
         });
@@ -161,7 +165,7 @@ exports.run = async (client, message, args, prefix) => {
           `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v1/?steamids=${steamidfetch}&key=${process.env.KEY}`
         )
         .catch(function (error) {
-          message.reply(
+          interaction.reply(
             'Não consigo acessar o `GetPlayerSummaries`, tente usar esse comando mais tarde.'
           );
         });
@@ -170,7 +174,7 @@ exports.run = async (client, message, args, prefix) => {
           `https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?steamid=${steamidfetch}&key=${process.env.KEY}`
         )
         .catch(function (error) {
-          message.reply(
+          interaction.reply(
             'Não consigo acessar o `GetSteamLevel`, tente usar esse comando mais tarde.'
           );
         });
@@ -179,7 +183,7 @@ exports.run = async (client, message, args, prefix) => {
           `https://api.steampowered.com/ISteamUser/GetPlayerBans/v1?steamids=${steamidfetch}&key=${process.env.KEY}`
         )
         .catch(function (error) {
-          message.reply(
+          interaction.reply(
             'Não consigo acessar o `GetPlayerBans`, tente usar esse comando mais tarde.'
           );
         });
@@ -191,7 +195,7 @@ exports.run = async (client, message, args, prefix) => {
       const dataCorreta = d.toLocaleString();
       const dataCorreta2 = d2.toLocaleString();
       console.log(req2.data.response);
-      await message.reply({
+      await interaction.reply({
         embeds: [
           criar_embed(
             req2.data.response.players.player[0].personaname,
@@ -205,9 +209,11 @@ exports.run = async (client, message, args, prefix) => {
             req4.data.players[0].CommunityBanned
           ),
         ],
+        ephemeral: true
       });
     }
   } catch (e) {
     console.log(e);
   }
-};
+},
+}

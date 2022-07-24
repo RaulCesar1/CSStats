@@ -1,7 +1,11 @@
 const Discord = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders')
 require('dotenv').config();
-exports.run = async (client, message, args, prefix) => {
-  await message.channel.sendTyping();
+module.exports = {
+  data: new SlashCommandBuilder()
+      .setName('code')
+      .setDescription('Mostra o código do BOT'),
+  async execute(interaction, client) {
   let embed = new Discord.MessageEmbed()
     .setAuthor({ name: 'CÓDIGO-FONTE', iconURL: client.user.avatarURL() })
     .setColor('AQUA')
@@ -13,5 +17,6 @@ exports.run = async (client, message, args, prefix) => {
     ])
     .setColor('WHITE');
 
-  message.reply({ embeds: [embed] });
+  interaction.reply({ embeds: [embed], ephemeral: true });
+},
 };

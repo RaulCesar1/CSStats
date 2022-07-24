@@ -1,14 +1,15 @@
 const Discord = require('discord.js');
 const axios = require('axios');
 require('dotenv').config();
-exports.run = async (client, message, args, prefix) => {
-  let str = args.slice(0).join(' ');
+const { SlashCommandBuilder } = require('@discordjs/builders')
+module.exports = {
+  data: new SlashCommandBuilder()
+      .setName('market')
+      .setDescription('mostra itens do mercado da do CS:GO')
+      .addStringOption(option => option.setName('item').setDescription('Enter a string')),
+  async execute(interaction, client) {
+    const str = interaction.options.getString('item');
   try {
-    if (!args[0]) {
-      return message.reply(
-        'Utilize `csgo>market <nome da skin/adesivo/agente>'
-      );
-    }
     //https://steamcommunity.com/market/priceoverview/?appid=730&market_hash_name=StatTrak™ Nova %7C Wood Fired %28Well-Worn%29&currency=7
     const req = await axios.get(
       `https://steamcommunity.com/market/search/render/?&appid=730&query=${str.replace(
@@ -17,7 +18,8 @@ exports.run = async (client, message, args, prefix) => {
       )}&start=0&currency=7&count=5&norender=1`
     );
     var ar = [];
-    var id = message.author.id;
+    const user = interaction.user
+    const id = user.id
     var pages = {};
 
     pages[id] = pages[id] || 0;
@@ -142,34 +144,36 @@ exports.run = async (client, message, args, prefix) => {
           : ar[ar.length - 1]
       ),
     ];
-    const embed = embeds[pages[id]];
-    const user = message.author;
-    const filter = (message) => message.user.id === user.id;
-    const time = 1000 * 60 * 5;
+    pages[id] = pages[id] || 0
 
-    const getRow = (id) => {
-      const row = new Discord.MessageActionRow();
-      row.addComponents(
-        new Discord.MessageButton()
-          .setCustomId('ret_b')
-          .setStyle('SECONDARY')
-          .setEmoji('◀️')
-          .setDisabled(pages[id] === 0)
-      );
-      row.addComponents(
-        new Discord.MessageButton()
-          .setCustomId('pro_b')
-          .setStyle('SECONDARY')
-          .setEmoji('▶️')
-          .setDisabled(pages[id] === embeds.length - 1)
-      );
-      return row;
-    };
-    reply = await message.reply({
+  const filter = (message) => message.user.id === user.id
+  const time = 1000 * 60 * 5;
+  const getRow = (id) => {
+    const row = new Discord.MessageActionRow();
+    row.addComponents(
+      new Discord.MessageButton()
+        .setCustomId('ret_b')
+        .setStyle('SECONDARY')
+        .setEmoji('◀️')
+        .setDisabled(pages[id] === 0)
+    );
+    row.addComponents(
+      new Discord.MessageButton()
+        .setCustomId('pro_b')
+        .setStyle('SECONDARY')
+        .setEmoji('▶️')
+        .setDisabled(pages[id] === embeds.length - 1)
+    );
+    return row;
+  };
+    const embed = embeds[pages[id]]
+    let collector
+    interaction.reply({
+      ephemeral: true,
       embeds: [embed],
       components: [getRow(id)],
-    });
-    collector = reply.createMessageComponentCollector({ filter, time });
+    })
+    collector = interaction.channel.createMessageComponentCollector({ filter, time })
     collector.on('collect', (botao) => {
       if (!botao) {
         return;
@@ -183,14 +187,13 @@ exports.run = async (client, message, args, prefix) => {
       } else if (botao.customId === 'pro_b' && pages[id] < embeds.length - 1) {
         ++pages[id];
       }
-      if (reply) {
-        reply.edit({
-          embeds: [embeds[pages[id]]],
-          components: [getRow(id)],
-        });
-      }
-    });
+      interaction.editReply({
+        embeds: [embeds[pages[id]]],
+        components: [getRow(id)],
+       })
+      })
   } catch (e) {
     console.log(e);
   }
-};
+}
+}

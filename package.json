@@ -6,6 +6,7 @@
     "@discordjs/voice": "^0.11.0",
     "autocorrect": "^1.2.0",
     "axios": "^0.27.2",
+    "discord-api-types": "^0.36.3",
     "discord-player": "^5.2.2",
     "discord.js": "13.9.0",
     "dotenv": "^16.0.1",
@@ -13,7 +14,8 @@
     "js-levenshtein": "^1.1.6",
     "nodemon": "^2.0.16",
     "path": "^0.12.7",
-    "protobufjs": "^6.11.3"
+    "protobufjs": "^6.11.3",
+    "steam-user": "^4.24.5"
   },
   "name": "csstats",
   "version": "1.2.0",
