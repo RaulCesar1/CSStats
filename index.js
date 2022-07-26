@@ -1,39 +1,44 @@
 const { Discord, Client } = require('discord.js');
 const client = new Client({ intents: 3276799 });
+const axios = require('axios');
 require('dotenv').config();
 const SteamUser = require('steam-user');
 const user = new SteamUser();
-const config = require('./config.json')
+const config = require('./config.json');
 const { Collection } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const fs = require('fs');
 
-
 const logOnOptions = {
-    accountName: config.USERNAME,
-    password: config.PASS,
-    twoFactorCode: config.TWOFC
-  };
+  accountName: config.USERNAME,
+  password: config.PASS,
+  twoFactorCode: config.TWOFC,
+};
 
-  client.on('ready', async () => {
-    const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+client.on('ready', async () => {
+  const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
-    await rest.put(Routes.applicationCommands(process.env.ID), {
-        body: commands
-    })
-  })
-  const commandFiles = fs.readdirSync('./C2').filter((file) => file.endsWith('.js'));
-  const commands = [];
-  client.commands = new Collection();
-  
-  for (let file of commandFiles) {
-      let command = require(`./C2/${file}`);
-      commands.push(command.data.toJSON());
-      client.commands.set(command.data.name, command);
-  }
+  await rest.put(Routes.applicationCommands(process.env.ID), {
+    body: commands,
+  });
+});
+const commandFiles = fs
+  .readdirSync('./C2')
+  .filter((file) => file.endsWith('.js'));
+const commands = [];
+client.commands = new Collection();
+
+for (let file of commandFiles) {
+  let command = require(`./C2/${file}`);
+  commands.push(command.data.toJSON());
+  client.commands.set(command.data.name, command);
+  console.log(
+    `\x1b[38;2;249;65;68m[Commands] \x1b[32m${command.data.name}\x1b[0m has been loaded.`
+  );
+}
 client.on('interactionCreate', async (interaction) => {
-  if (!interaction.isCommand()) return;
+  if (!interaction.isCommand() && !interaction.isContextMenu()) return;
   if (interaction.user.bot === true) return;
 
   let command = client.commands.get(interaction.commandName);
@@ -41,34 +46,33 @@ client.on('interactionCreate', async (interaction) => {
   if (!command) return;
 
   try {
-      await command.execute(interaction, client);
+    await command.execute(interaction, client);
   } catch (error) {
-      console.error(error);
-      await interaction.reply({
-          content: 'Ocorreu um erro ao executar este comando!',
-          ephemeral: true,
-      });
+    console.error(error);
+    await interaction.reply({
+      content: 'Ocorreu um erro ao executar este comando!',
+      ephemeral: true,
+    });
   }
-})
+});
 
 // user.logOn(logOnOptions);
 user.on('loggedOn', () => {
-    console.log('Logged into Steam');
-    user.setPersona(SteamUser.EPersonaState.Online);
-    user.gamesPlayed(730);
-  });
-  user.setOption("enablePicsCache", true);
-  user.setOption("autoRelogin", true);
-  user.setOption("picsCacheAll", true);
-  user.setOption("changelistUpdateInterval", 60000);
-  user.on('ownershipCached', () => {
-    console.log('Todos os jogos foram colocados na cache.'.green)
-    const games = user.getOwnedApps(true)
-    const depots = user.getOwnedDepots(true)
-    console.log(games.length)
-    console.log(depots.length)
-  })
-const axios = require('axios');
+  console.log('Logged into Steam');
+  user.setPersona(SteamUser.EPersonaState.Online);
+  user.gamesPlayed(730);
+});
+user.setOption('enablePicsCache', true);
+user.setOption('autoRelogin', true);
+user.setOption('picsCacheAll', true);
+user.setOption('changelistUpdateInterval', 60000);
+user.on('ownershipCached', () => {
+  console.log('Todos os jogos foram colocados na cache.'.green);
+  const games = user.getOwnedApps(true);
+  const depots = user.getOwnedDepots(true);
+  console.log(games.length);
+  console.log(depots.length);
+});
 
 const prefix = process.env.PREFIX;
 
@@ -156,4 +160,4 @@ client.on('messageCreate', async (message) => {
     });
   }
 });
-client.login(process.env.TOKEN)
+client.login(process.env.TOKEN);
