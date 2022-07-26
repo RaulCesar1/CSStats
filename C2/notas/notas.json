@@ -84,6 +84,18 @@
   "version": "1.2.3",
   "desc": "[MISC]\n- Código do comando de mercado refeito\n- O comando `csgo>marketcheck` agora é `csgo>market <Skin/Agente/Cápsula/Adesivo>`",
   "data": "21.07.22"
+},
+{
+  "id": "15",
+  "version": "1.2.4",
+  "desc": "[GERAL]\n- Rewrite (de novo!) de todos os comandos para Slash Commands (yay)!",
+  "data": "24.07.22"
+},
+{
+  "id": "16",
+  "version": "1.2.5",
+  "desc": "[MISC]\n- Agora o BOT mostra informações de um usuário específico se você clicar com o botão direito, ir em Apps e clicar em informações.",
+  "data:": "26.07.22"
 }
 ]
 }
