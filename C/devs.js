@@ -48,6 +48,5 @@ module.exports = {
       },
     ]);
   interaction.reply({ embeds: [embed], ephemeral: true });
-  console.log(member.presence);
 }
 }

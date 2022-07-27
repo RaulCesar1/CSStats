@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const axios = require('axios');
-const dc = require('../C/datacenters/datacenters.json');
+const dc = require('./datacenters/datacenters.json');
 const base = dc.base;
 require('dotenv').config();
 const { SlashCommandBuilder } = require('@discordjs/builders')
@@ -209,7 +209,7 @@ module.exports = {
       },
     ]);
 
-    const embeds = [p0, p1, p2, p3];
+    const embeds = [p0, p1, p2, p3, p4];
     const pages = {}
     const user = interaction.user
     const id = user.id

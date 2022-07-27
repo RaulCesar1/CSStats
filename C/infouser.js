@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const { ContextMenuCommandBuilder } = require('@discordjs/builders');
 module.exports = {
   data: new ContextMenuCommandBuilder().setName('Informações').setType(2),
-  async execute(interaction, client) {
+  async execute(interaction) {
     try {
       const target = await interaction.guild.members.fetch(
         interaction.targetId
