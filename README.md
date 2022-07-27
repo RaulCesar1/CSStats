@@ -8,8 +8,6 @@
 
 Adicione-o em seu servidor [clicando aqui](https://discord.com/oauth2/authorize?client_id=989349457726418964&scope=bot&permissions=8)
 
-Utilize o comando **csgo>ajuda** para ver a lista de comandos!
-
 <h1>Contato do Desenvolvedor: </h1>
 
 Discord: Lunx#6699  

@@ -1,11 +1,2 @@
 node_modules
 .env
-package.json
-C/skip.js
-C/play.js
-C/resumir
-C/pausar.js
-C/organizar.js
-C/info.js
-C/fila.js
-C/disc.js
